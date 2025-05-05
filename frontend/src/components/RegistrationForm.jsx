@@ -1,7 +1,7 @@
 // src/components/RegistrationForm.jsx
 import React, { useState } from 'react';
 import './RegistrationForm.css';
-import { useNavigate } from 'react-router-dom'; // Si usas react-router-dom
+import { useNavigate } from 'react-router-dom'; // 
 
 export default function RegistrationForm() {
   const [form, setForm] = useState({
@@ -67,11 +67,12 @@ export default function RegistrationForm() {
     }
 
     try {
-      const res = await fetch('/api/register', {
+      const res = await fetch('http://localhost:3001/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
       });
+      
       const data = await res.json();
       if (res.ok) {
         setModal({

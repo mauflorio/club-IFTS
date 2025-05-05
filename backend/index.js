@@ -27,6 +27,24 @@ app.post('/api/register', (req, res) => {
   return res.status(201).json({ message: 'Usuario registrado correctamente.' });
 });
 
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const user = users.find(u => u.email === email);
+
+  if (!user) {
+    return res.status(401).json({ error: 'Usuario no encontrado.' });
+  }
+
+  if (user.password !== password) {
+    return res.status(401).json({ error: 'Contraseña incorrecta.' });
+  }
+
+  const { password: pwd, ...userWithoutPassword } = user;
+
+  return res.json({ user: userWithoutPassword });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
