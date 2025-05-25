@@ -246,6 +246,31 @@ app.get("/api/usuario-actividades/:email", (req, res) => {
   return res.json({ actividades: actividadesUsuario });
 });
 
+app.post("/api/dar-de-baja", (req, res) => {
+  const { email, actividadId } = req.body;
+
+  const user = users.find((u) => u.email === email);
+  if (!user) {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(404).json({ error: "Usuario no encontrado." });
+  }
+
+  const actividad = actividades.find((a) => a.id === actividadId);
+  if (!actividad) {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(404).json({ error: "Actividad no encontrada." });
+  }
+
+  // Remove actividadId from user's actividades array
+  user.actividades = user.actividades.filter((id) => id !== actividadId);
+
+  // Remove email from actividad's inscriptos array
+  actividad.inscriptos = actividad.inscriptos.filter((e) => e !== email);
+
+  res.setHeader('Content-Type', 'application/json');
+  return res.status(200).json({ message: "Baja de actividad exitosa." });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
