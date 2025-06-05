@@ -1,275 +1,220 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const app = express();
 const PORT = 3001;
+const db = require("./db");
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
+}));
 
-const users = [
-  {
-    nombre: "Juan",
-    apellido: "Pérez",
-    dni: "12345678",
-    direccion: "Calle Falsa 123",
-    email: "juan@example.com",
-    telefono: "1112345678",
-    password: "123456",
-    actividades: [],
-  },
-  {
-    nombre: "María",
-    apellido: "Gómez",
-    dni: "23456789",
-    direccion: "Av. Siempre Viva 742",
-    email: "maria@example.com",
-    telefono: "1123456789",
-    password: "abcdef",
-    actividades: [],
-  },
-  {
-    nombre: "Carlos",
-    apellido: "Rodríguez",
-    dni: "34567890",
-    direccion: "San Martín 456",
-    email: "carlos@example.com",
-    telefono: "1134567890",
-    password: "pass123",
-    actividades: [3],
-  },
-  {
-    nombre: "Matias",
-    apellido: "Parentti",
-    dni: "39273059",
-    direccion: "Av. Mitre 123",
-    email: "matiparentti@gmail.com",
-    telefono: "1111111111",
-    password: "test123",
-    actividades: [1],
-  },
-  {
-    nombre: "Iñaki",
-    apellido: "Zarate",
-    dni: "43360207",
-    direccion: "Calle 9 N° 456",
-    email: "inakizarate25@gmail.com",
-    telefono: "2222222222",
-    password: "test123",
-    actividades: [2],
-  },
-  {
-    nombre: "Mauro",
-    apellido: "Florio Aguilar",
-    dni: "36164599",
-    direccion: "Av. Córdoba 789",
-    email: "mau.florio@gmail.com",
-    telefono: "3333333333",
-    password: "test123",
-    actividades: [1,3],
-  },
-  {
-    nombre: "Nicolas Sebastian",
-    apellido: "Mafone",
-    dni: "29544646",
-    direccion: "Belgrano 321",
-    email: "nicolasmafone@gmail.com",
-    telefono: "4444444444",
-    password: "test123",
-    actividades: [
-      3
-    ],
-  },
-];
-const actividades = [
-  {
-    id: 1,
-    nombre: "Fútbol",
-    dia: "Lunes y Viernes",
-    horario: "18:00 - 20:00",
-    entrenador: "Marcelo Gallardo",
-    requisitos: "Botines y apto médico",
-    cupo: 10,
-    inscriptos: ["matiparentti@gmail.com", "mau.florio@gmail.com"],
-  },
-  {
-    id: 2,
-    nombre: "Rugby",
-    dia: "Martes y Sabados",
-    horario: "10:00 - 12:00",
-    entrenador: "Juan Perez",
-    requisitos: "apto médico",
-    cupo: 10,
-    inscriptos: ["inakizarate25@gmail.com"],
-  },
-  {
-    id: 3,
-    nombre: "Natacion",
-    dia: "Miercoles",
-    horario: "10:00 - 12:00",
-    entrenador: "Lebron James",
-    requisitos: "apto médico , traje de baño",
-    cupo: 3,
-    inscriptos: [
-      "nicolasmafone@gmail.com",
-      "mau.florio@gmail.com",
-      "carlos@example.com",
-    ],
-  },
-];
+
 
 app.post("/api/register", (req, res) => {
-  const {
-    nombre,
-    apellido,
-    dni,
-    direccion,
-    email,
-    telefono,
-    password,
-    confirmPassword,
-  } = req.body;
+  const { nombre, apellido, dni, direccion, email, telefono, password, confirmPassword } = req.body;
 
-  if (
-    !nombre ||
-    !apellido ||
-    !dni ||
-    !direccion ||
-    !email ||
-    !telefono ||
-    !password ||
-    !confirmPassword
-  ) {
-    return res
-      .status(400)
-      .json({ error: "Todos los campos son obligatorios." });
+  if (!nombre || !apellido || !dni || !direccion || !email || !telefono || !password || !confirmPassword) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios." });
   }
 
   if (password !== confirmPassword) {
     return res.status(400).json({ error: "Las contraseñas no coinciden." });
   }
 
-  if (!/^\d+$/.test(dni))
-    return res.status(400).json({ error: "DNI debe ser numérico." });
-
-  users.push({
-    nombre,
-    apellido,
-    dni,
-    direccion,
-    email,
-    telefono,
-    password,
-    actividades: [],
-  });
-  return res.status(201).json({ message: "Usuario registrado correctamente." });
+  db.run(
+    `INSERT INTO usuarios (email, nombre, apellido, dni, direccion, telefono, password)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [email, nombre, apellido, dni, direccion, telefono, password],
+    function (err) {
+      if (err) {
+        return res.status(400).json({ error: "El usuario ya existe o error en los datos." });
+      }
+      res.status(201).json({ message: "Usuario registrado correctamente." });
+    }
+  );
 });
+
 
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email);
+  db.get(`SELECT * FROM usuarios WHERE email = ?`, [email], (err, user) => {
+    if (err || !user) {
+      return res.status(401).json({ error: "Usuario no encontrado." });
+    }
+    if (user.password !== password) {
+      return res.status(401).json({ error: "Contraseña incorrecta." });
+    }
 
-  if (!user) {
-    return res.status(401).json({ error: "Usuario no encontrado." });
-  }
-
-  if (user.password !== password) {
-    return res.status(401).json({ error: "Contraseña incorrecta." });
-  }
-
-  const { password: pwd, ...userWithoutPassword } = user;
-
-  return res.json({ user: userWithoutPassword });
+    const { password: _, ...userSinPassword } = user;
+    res.json({ user: userSinPassword });
+  });
 });
+
 
 app.get("/api/usuario/:email", (req, res) => {
   const email = req.params.email;
 
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado." });
+  db.get("SELECT * FROM usuarios WHERE email = ?", [email], (err, user) => {
+    if (err || !user) return res.status(404).json({ error: "Usuario no encontrado." });
+
+    const { password, ...userSinPassword } = user;
+    res.json({ user: userSinPassword });
+  });
+});
+
+
+app.put("/api/usuario/:email", (req, res) => {
+  const { email } = req.params;
+  const { nombre, apellido, dni, direccion, telefono, password } = req.body;
+
+  if (!nombre || !apellido || !dni || !direccion || !telefono || !password) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios." });
   }
 
-  const { password, ...userSinPassword } = user;
+  const sql = `
+    UPDATE usuarios
+    SET nombre = ?, apellido = ?, dni = ?, direccion = ?, telefono = ?, password = ?
+    WHERE email = ?
+  `;
 
-  res.json({ user: userSinPassword });
+  db.run(sql, [nombre, apellido, dni, direccion, telefono, password, email], function (err) {
+    if (err) {
+      return res.status(500).json({ error: "Error al actualizar el usuario." });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    res.json({ message: "Usuario actualizado correctamente." });
+  });
 });
+
 
 app.post("/api/inscribirse", (req, res) => {
   const { email, actividadId } = req.body;
 
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado." });
-  }
+  db.get("SELECT * FROM usuarios WHERE email = ?", [email], (err, user) => {
+    if (err || !user) return res.status(404).json({ error: "Usuario no encontrado." });
 
-  const actividad = actividades.find((a) => a.id === actividadId);
-  if (!actividad) {
-    return res.status(404).json({ error: "Actividad no encontrada." });
-  }
+    db.get("SELECT * FROM actividades WHERE id = ?", [actividadId], (err2, actividad) => {
+      if (err2 || !actividad) return res.status(404).json({ error: "Actividad no encontrada." });
 
-  const yaInscripto = actividad.inscriptos.includes(email);
-  if (yaInscripto) {
-    return res
-      .status(400)
-      .json({ error: "Ya estás inscripto en esta actividad." });
-  }
+      db.all(
+        "SELECT COUNT(*) as cantidad FROM inscripciones WHERE actividad_id = ?",
+        [actividadId],
+        (err3, result) => {
+          if (err3) return res.status(500).json({ error: "Error al verificar cupos." });
 
-  if (actividad.inscriptos.length >= actividad.cupo) {
-    return res.status(400).json({ error: "No hay cupos disponibles." });
-  }
+          const cantidad = result[0].cantidad;
 
-  actividad.inscriptos.push(email);
-  user.actividades.push(actividadId);
+          if (cantidad >= actividad.cupo) {
+            return res.status(400).json({ error: "No hay cupos disponibles." });
+          }
 
-  return res.status(200).json({ message: "Inscripción exitosa." });
+          db.get(
+            "SELECT * FROM inscripciones WHERE email = ? AND actividad_id = ?",
+            [email, actividadId],
+            (err4, inscripto) => {
+              if (inscripto) {
+                return res.status(400).json({ error: "Ya estás inscripto en esta actividad." });
+              }
+
+              db.run(
+                "INSERT INTO inscripciones (email, actividad_id) VALUES (?, ?)",
+                [email, actividadId],
+                (err5) => {
+                  if (err5) return res.status(500).json({ error: "Error al inscribirse." });
+                  res.status(200).json({ message: "Inscripción exitosa." });
+                }
+              );
+            }
+          );
+        }
+      );
+    });
+  });
 });
+
 
 app.get("/api/actividades", (req, res) => {
-  res.json({ actividades });
+  db.all("SELECT * FROM actividades", [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: "Error al obtener actividades." });
+    }
+
+    // Para cada actividad, traemos inscriptos
+    const actividadesConInscriptos = [];
+
+    let pendientes = rows.length;
+    if (pendientes === 0) return res.json({ actividades: [] });
+
+    rows.forEach((actividad) => {
+      db.all(
+        "SELECT email FROM inscripciones WHERE actividad_id = ?",
+        [actividad.id],
+        (err2, inscriptos) => {
+          if (err2) {
+            return res.status(500).json({ error: "Error al obtener inscriptos." });
+          }
+
+          actividadesConInscriptos.push({
+            ...actividad,
+            inscriptos: inscriptos.map((i) => i.email),
+          });
+
+          if (--pendientes === 0) {
+            res.json({ actividades: actividadesConInscriptos });
+          }
+        }
+      );
+    });
+  });
 });
+
 
 app.get("/api/usuario-actividades/:email", (req, res) => {
   const email = req.params.email;
 
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado." });
-  }
+  db.all(
+    `SELECT a.* FROM actividades a
+     JOIN inscripciones i ON i.actividad_id = a.id
+     WHERE i.email = ?`,
+    [email],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: "Error al obtener actividades del usuario." });
 
-  const actividadesUsuario = actividades.filter((act) =>
-    user.actividades.includes(act.id)
+      res.json({ actividades: rows });
+    }
   );
-
-  return res.json({ actividades: actividadesUsuario });
 });
+
 
 app.post("/api/dar-de-baja", (req, res) => {
   const { email, actividadId } = req.body;
 
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    res.setHeader('Content-Type', 'application/json');
-    return res.status(404).json({ error: "Usuario no encontrado." });
-  }
+  db.run(
+    "DELETE FROM inscripciones WHERE email = ? AND actividad_id = ?",
+    [email, actividadId],
+    function (err) {
+      if (err) return res.status(500).json({ error: "Error al dar de baja." });
 
-  const actividad = actividades.find((a) => a.id === actividadId);
-  if (!actividad) {
-    res.setHeader('Content-Type', 'application/json');
-    return res.status(404).json({ error: "Actividad no encontrada." });
-  }
+      if (this.changes === 0) {
+        return res.status(404).json({ error: "No se encontró inscripción para eliminar." });
+      }
 
-  // Remove actividadId from user's actividades array
-  user.actividades = user.actividades.filter((id) => id !== actividadId);
-
-  // Remove email from actividad's inscriptos array
-  actividad.inscriptos = actividad.inscriptos.filter((e) => e !== email);
-
-  res.setHeader('Content-Type', 'application/json');
-  return res.status(200).json({ message: "Baja de actividad exitosa." });
+      res.status(200).json({ message: "Baja de actividad exitosa." });
+    }
+  );
 });
+
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
