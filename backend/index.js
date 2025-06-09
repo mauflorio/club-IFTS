@@ -52,8 +52,7 @@ app.post("/api/login", (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta." });
     }
 
-    const { password: _, ...userSinPassword } = user;
-    res.json({ user: userSinPassword });
+    res.json({ user });
   });
 });
 
@@ -62,12 +61,13 @@ app.get("/api/usuario/:email", (req, res) => {
   const email = req.params.email;
 
   db.get("SELECT * FROM usuarios WHERE email = ?", [email], (err, user) => {
-    if (err || !user) return res.status(404).json({ error: "Usuario no encontrado." });
-
-    const { password, ...userSinPassword } = user;
-    res.json({ user: userSinPassword });
+    if (err || !user) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+    res.json({ user });
   });
 });
+
 
 
 app.put("/api/usuario/:email", (req, res) => {
