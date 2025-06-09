@@ -6,6 +6,9 @@ import ProfileLanding from './components/ProfileLanding';
 import PrivateRoute from './routes/PrivateRoute';
 import AvailableActivities from './components/AvailableActivities';
 import EnrolledActivities from './components/EnrolledActivities';
+import RecuperarContraseña from './components/RecuperarContraseña';
+import ResetearContraseña from './components/ResetearContraseña';
+
 
 function Home() {
   return <h1>Bienvenido al sistema de gestión del club</h1>;
@@ -33,6 +36,8 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/home" element={<Home />} />
+        <Route path="/recuperar" element={<RecuperarContraseña />} />
+        <Route path="/resetear" element={<ResetearContraseña />} />
       </Routes>
     </Router>
   );

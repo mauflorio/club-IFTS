@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const PORT = 3001;
 const db = require("./db");
+const crypto = require("crypto");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -214,6 +215,49 @@ app.post("/api/dar-de-baja", (req, res) => {
     }
   );
 });
+
+app.post("/api/recuperar", (req, res) => {
+  const { email } = req.body;
+  const token = crypto.randomBytes(20).toString("hex");
+  const expires = Date.now() + 1000 * 60 * 15; // 15 minutos
+
+  db.run(
+    `UPDATE usuarios SET reset_token = ?, reset_token_exp = ? WHERE email = ?`,
+    [token, expires, email],
+    function (err) {
+      if (err) return res.status(500).json({ error: "Error interno" });
+      if (this.changes === 0) return res.status(404).json({ error: "Usuario no encontrado" });
+
+      // 🔔 En producción: Enviar por correo electrónico
+      // Aquí lo devolvemos en respuesta por ser entorno educativo
+      res.json({ message: "Token generado", token });
+    }
+  );
+});
+
+app.post("/api/reset-password", (req, res) => {
+  const { token, nuevaPassword } = req.body;
+
+  const ahora = Date.now();
+
+  db.get(
+    `SELECT * FROM usuarios WHERE reset_token = ? AND reset_token_exp > ?`,
+    [token, ahora],
+    (err, user) => {
+      if (err || !user) return res.status(400).json({ error: "Token inválido o expirado" });
+
+      db.run(
+        `UPDATE usuarios SET password = ?, reset_token = NULL, reset_token_exp = NULL WHERE email = ?`,
+        [nuevaPassword, user.email],
+        (err) => {
+          if (err) return res.status(500).json({ error: "No se pudo actualizar la contraseña" });
+          res.json({ message: "Contraseña actualizada correctamente" });
+        }
+      );
+    }
+  );
+});
+
 
 
 app.listen(PORT, () => {

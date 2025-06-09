@@ -5,7 +5,6 @@ const db = new sqlite3.Database("./club.db", (err) => {
   console.log("Conectado a la base de datos SQLite");
 });
 
-
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
@@ -40,6 +39,18 @@ db.serialize(() => {
       FOREIGN KEY (actividad_id) REFERENCES actividades(id)
     )
   `);
+
+  db.run(`ALTER TABLE usuarios ADD COLUMN reset_token TEXT`, (err) => {
+    if (err && !err.message.includes("duplicate column name")) {
+      console.error("Error al agregar reset_token:", err.message);
+    }
+  });
+
+  db.run(`ALTER TABLE usuarios ADD COLUMN reset_token_exp INTEGER`, (err) => {
+    if (err && !err.message.includes("duplicate column name")) {
+      console.error("Error al agregar reset_token_exp:", err.message);
+    }
+  });
 });
 
 module.exports = db;
