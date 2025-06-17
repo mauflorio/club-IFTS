@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import '../styles/ActividadesSocio.css';
 export default function AvailableActivities() {
   const { user } = useAuth();
   const [activities, setActivities] = useState([]);
@@ -12,9 +12,9 @@ export default function AvailableActivities() {
   useEffect(() => {
     async function fetchActivities() {
       try {
-        const response = await fetch('http://localhost:3001/api/actividades');
+        const response = await fetch("http://localhost:3001/api/actividades");
         if (!response.ok) {
-          throw new Error('Error fetching activities');
+          throw new Error("Error fetching activities");
         }
         const data = await response.json();
         // Filter activities with available spots
@@ -33,22 +33,22 @@ export default function AvailableActivities() {
 
   const handleInscripcion = async (actividadId) => {
     if (!user || !user.email) {
-      setMessage('Debe iniciar sesión para inscribirse.');
+      setMessage("Debe iniciar sesión para inscribirse.");
       return;
     }
     setMessage(null);
     setButtonLoading((prev) => ({ ...prev, [actividadId]: true }));
     try {
-      const response = await fetch('http://localhost:3001/api/inscribirse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:3001/api/inscribirse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: user.email, actividadId }),
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || 'Error en la inscripción.');
+        setMessage(data.error || "Error en la inscripción.");
       } else {
-        setMessage(data.message || 'Inscripción exitosa.');
+        setMessage(data.message || "Inscripción exitosa.");
         // Update activities state to reflect new inscriptos count
         setActivities((prevActivities) =>
           prevActivities.map((act) =>
@@ -59,7 +59,7 @@ export default function AvailableActivities() {
         );
       }
     } catch (err) {
-      setMessage('Error en la inscripción.');
+      setMessage("Error en la inscripción.");
     } finally {
       setButtonLoading((prev) => ({ ...prev, [actividadId]: false }));
     }
@@ -73,33 +73,57 @@ export default function AvailableActivities() {
   }
 
   return (
-    <div>
+    <section  className="actividades-section">
       <h2>Actividades Disponibles</h2>
       {message && <p>{message}</p>}
-      <ul>
+      <div className="actividades-grid">
         {activities.map((act) => {
           const isInscripto = act.inscriptos.includes(user?.email);
           const cuposDisponibles = act.cupo - act.inscriptos.length;
           return (
-            <li key={act.id} style={{ marginBottom: '1rem' }}>
+            <div
+              className="actividad-card"
+              key={act.id}
+              style={{ marginBottom: "1rem" }}
+            >
               <h3>{act.nombre}</h3>
-              <p><strong>Día:</strong> {act.dia}</p>
-              <p><strong>Horario:</strong> {act.horario}</p>
-              <p><strong>Entrenador:</strong> {act.entrenador}</p>
-              <p><strong>Requisitos:</strong> {act.requisitos}</p>
-              <p><strong>Cupo:</strong> {act.cupo}</p>
-              <p><strong>Inscriptos:</strong> {act.inscriptos.length}</p>
-              <p><strong>Cupos disponibles:</strong> {cuposDisponibles}</p>
+              <p>
+                <strong>Día:</strong> {act.dia}
+              </p>
+              <p>
+                <strong>Horario:</strong> {act.horario}
+              </p>
+              <p>
+                <strong>Entrenador:</strong> {act.entrenador}
+              </p>
+              <p>
+                <strong>Requisitos:</strong> {act.requisitos}
+              </p>
+              <p>
+                <strong>Cupo:</strong> {act.cupo}
+              </p>
+              <p>
+                <strong>Inscriptos:</strong> {act.inscriptos.length}
+              </p>
+              <p>
+                <strong>Cupos disponibles:</strong> {cuposDisponibles}
+              </p>
               <button
                 onClick={() => handleInscripcion(act.id)}
-                disabled={isInscripto || cuposDisponibles <= 0 || buttonLoading[act.id]}
+                disabled={
+                  isInscripto || cuposDisponibles <= 0 || buttonLoading[act.id]
+                }
               >
-                {buttonLoading[act.id] ? 'Inscribiendo...' : isInscripto ? 'Ya Inscripto' : 'Inscripción'}
+                {buttonLoading[act.id]
+                  ? "Inscribiendo..."
+                  : isInscripto
+                  ? "Ya Inscripto"
+                  : "Inscribirme"}
               </button>
-            </li>
+            </div>
           );
         })}
-      </ul>
-    </div>
+      </div>
+    </section>
   );
 }

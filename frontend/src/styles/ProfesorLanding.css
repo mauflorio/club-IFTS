@@ -1,0 +1,140 @@
+.profesor-landing {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .profesor-landing h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #004aad;
+  }
+  
+  .profesor-landing p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Accesos */
+  .profesor-accesos h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #004aad;
+  }
+  
+  .profesor-accesos ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .profesor-accesos li {
+    margin-bottom: 0.7rem;
+    font-size: 1.1rem;
+  }
+  
+  .profesor-accesos a {
+    color: #004aad;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .profesor-accesos a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Perfil */
+  .profesor-perfil {
+    margin-top: 2rem;
+    border-top: 1px solid #ddd;
+    padding-top: 2rem;
+  }
+  
+  .profesor-perfil h2 {
+    font-size: 1.4rem;
+    color: #004aad;
+    margin-bottom: 1rem;
+  }
+  
+  .profesor-datos p {
+    font-size: 1.1rem;
+    margin: 0.4rem 0;
+  }
+  
+  /* Formulario */
+  .profesor-form label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .profesor-form input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  /* Botones */
+  .profesor-btn {
+    background-color: #004aad;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .profesor-btn:hover {
+    background-color: #003080;
+  }
+  
+  .profesor-btn.cancelar {
+    background-color: #888;
+  }
+  
+  .profesor-btn.cancelar:hover {
+    background-color: #666;
+  }
+  
+  /* Alertas */
+  .profesor-alert-success {
+    background-color: #d4edda;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    color: #155724;
+  }
+  
+  .profesor-alert-error {
+    background-color: #f8d7da;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    color: #721c24;
+  }
+  .profesor-card {
+    background-color: #f2f6fc;
+    padding: 1.5rem;
+    border-left: 5px solid #004aad;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+  }
+  
+  .profesor-card h3 {
+    margin: 0 0 0.8rem;
+    color: #00327a;
+    font-size: 1.5rem;
+  }
+  
+  .profesor-card p {
+    margin: 0.3rem 0;
+    font-size: 1.1rem;
+  }
+  

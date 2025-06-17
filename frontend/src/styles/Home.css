@@ -1,0 +1,161 @@
+/* src/pages/Home.css */
+
+.home-banner {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+  }
+  
+  .home-banner-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  .home-banner-overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .home-secciones {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+  }
+  
+  .home-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .home-card h3 {
+    margin-bottom: 0.5rem;
+    color: #004aad;
+  }
+  /* ... (se mantiene lo anterior) */
+
+.home-actividades {
+  padding: 2rem;
+  background-color: #eef2f5;
+  text-align: center;
+}
+
+.home-actividades h2 {
+  color: #004aad;
+  margin-bottom: 1.5rem;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.actividad {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-weight: bold;
+}
+
+.home-eventos {
+  padding: 2rem;
+  background-color: white;
+  text-align: center;
+}
+
+.home-eventos h2 {
+  color: #004aad;
+  margin-bottom: 1.5rem;
+}
+
+.home-eventos blockquote {
+  font-style: italic;
+  margin: 1rem auto;
+  max-width: 600px;
+  padding: 1rem;
+  border-left: 4px solid #004aad;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.home-eventos blockquote span {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+/* Sponsors */
+.home-sponsors {
+  padding: 2rem;
+  background-color: #f0f4f8;
+  text-align: center;
+}
+
+.sponsor-logos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.sponsor-logos img {
+  height: 60px;
+}
+
+.sponsor-logos img:hover {
+  filter: none;
+}
+
+/* Mapa */
+.home-mapa {
+  padding: 2rem;
+  background-color: white;
+  text-align: center;
+}
+
+.mapa-container {
+  margin-top: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* FAQ */
+.home-faq {
+  padding: 2rem;
+  background-color: #eef2f5;
+  max-width: 800px;
+  margin: auto;
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+}
+
+.faq-item strong {
+  display: block;
+  color: #004aad;
+  margin-bottom: 0.5rem;
+}

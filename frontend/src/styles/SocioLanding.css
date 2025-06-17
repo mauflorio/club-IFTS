@@ -1,0 +1,175 @@
+/* src/pages/SocioLanding.css */
+
+.socio-section {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fdfdfd;
+  }
+  
+  .socio-title {
+    color: #004aad;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Mensajes */
+  .socio-alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.75rem;
+    border-left: 5px solid green;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .socio-alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-left: 5px solid red;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  /* Datos en vista */
+  .socio-datos {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .socio-datos p {
+    margin-bottom: 0.7rem;
+  }
+  
+  /* Formulario en edición */
+  .socio-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .socio-form div {
+    margin-bottom: 1rem;
+  }
+  
+  .socio-form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .socio-form input {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  /* Botones */
+  .socio-btn {
+    background-color: #004aad;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+  
+  .socio-btn:hover {
+    background-color: #003080;
+  }
+  
+  .socio-btn.cancelar {
+    background-color: #999;
+  }
+  
+  .socio-btn.cancelar:hover {
+    background-color: #777;
+  }
+  .socio-dashboard {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .socio-card {
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .socio-card h3 {
+    color: #004aad;
+    margin-bottom: 0.5rem;
+  }
+  
+  .socio-card p {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .verde {
+    color: green;
+  }
+  
+  .rojo {
+    color: red;
+  }
+  .socio-datos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .socio-dato {
+    background-color: #f7f9fb;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #004aad;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  .socio-dato span:first-child {
+    font-size: 2rem;
+  }
+  
+  .socio-dato strong {
+    font-weight: bold;
+    color: #004aad;
+  }
+  
+  .socio-datos-btn {
+    text-align: right;
+  }
+  .socio-btn.secundario {
+    background-color: #888;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .socio-btn.secundario:hover {
+    background-color: #555;
+  }
+  

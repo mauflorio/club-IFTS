@@ -1,0 +1,56 @@
+.programar-section {
+    padding: 2rem;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .programar-section h2 {
+    text-align: center;
+    color: #004aad;
+    margin-bottom: 2rem;
+  }
+  
+  .programar-form label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .programar-form input,
+  .programar-form textarea {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .programar-form textarea {
+    resize: vertical;
+    height: 80px;
+  }
+  
+  .programar-form button {
+    background-color: #004aad;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  .programar-form button:hover {
+    background-color: #00327a;
+  }
+  
+  .mensaje-exito {
+    background-color: #d4edda;
+    padding: 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    color: green;
+    text-align: center;
+  }
+  

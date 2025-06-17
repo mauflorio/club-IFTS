@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import './RegistrationForm.css';
+
 import { useNavigate } from "react-router-dom";
 
 const RecuperarContraseña = () => {
@@ -37,7 +37,7 @@ const RecuperarContraseña = () => {
   };
 
   return (
-    <div className="form-container">
+    <section className="login-section">
       <h2>Recuperar Contraseña</h2>
       <form onSubmit={handleSolicitarToken}>
         <div className="field-group">
@@ -50,7 +50,7 @@ const RecuperarContraseña = () => {
           />
         </div>
 
-        <button type="submit">Solicitar Token</button>
+        <button style={{ marginTop: '1rem' }} type="submit">Solicitar Token</button>
       </form>
 
       {modal.open && (
@@ -59,7 +59,7 @@ const RecuperarContraseña = () => {
           <button onClick={closeModal}>Cerrar</button>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

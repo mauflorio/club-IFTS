@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "./RegistrationForm.css";
+
 import { useNavigate } from "react-router-dom";
 
 const ResetearContraseña = () => {
@@ -41,7 +41,7 @@ const ResetearContraseña = () => {
   };
 
   return (
-    <div className="form-container">
+    <section className="login-section">
       <h2>Restablecer Contraseña</h2>
       <form onSubmit={handleReset} noValidate>
         <div className="field-group">
@@ -68,7 +68,7 @@ const ResetearContraseña = () => {
           <input key="confirmPassword" type="password" required />
         </div>
 
-        <button type="submit">Actualizar Contraseña</button>
+        <button style={{ marginTop: '1rem' }} type="submit">Actualizar Contraseña</button>
       </form>
 
       {modal.open && (
@@ -77,7 +77,7 @@ const ResetearContraseña = () => {
           <button onClick={closeModal}>Cerrar</button>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

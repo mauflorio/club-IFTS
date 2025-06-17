@@ -1,0 +1,67 @@
+/* src/pages/ActividadesSocio.css */
+
+.actividades-section {
+    padding: 2rem;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .actividades-section h2 {
+    text-align: center;
+    color: #004aad;
+    margin-bottom: 2rem;
+  }
+  
+  .actividades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .actividad-card {
+    background-color: white;
+    padding: 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .actividad-card h3 {
+    color: #004aad;
+    margin-bottom: 0.5rem;
+  }
+  
+  .actividad-card p {
+    margin: 0.3rem 0;
+  }
+  
+  .actividad-card button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .actividad-card button:disabled {
+    background-color: #ccc;
+    cursor: default;
+  }
+  .actividad-card .desinscribirse {
+    background-color: #c62828;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .actividad-card .desinscribirse:hover {
+    background-color: #8e0000;
+  }
+  
