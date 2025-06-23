@@ -71,6 +71,12 @@ npm run dev
 
 # Production mode
 npm start
+
+# Run backend server
+cd backend && node index.js
+
+# Run frontend server
+cd frontend && npm start
 ```
 
 The application will be available at `http://localhost:3000`
